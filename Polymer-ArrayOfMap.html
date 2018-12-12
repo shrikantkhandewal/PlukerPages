@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <script src="https://bstavroulakis.com/pluralsight/polymer/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="https://bstavroulakis.com/pluralsight/polymer/bower_components/polymer/polymer.html" />
+</head>
+<body>
+  <alert-element></alert-element>
+
+<!--  <template is="dom-repeat" items="{{_toArray(messageObj.group)}}">
+    <span>[[item]]</span>
+</template>-->
+  <dom-module id="alert-element">
+   <!-- <template>
+     <template is="dom-repeat" items="{{messageObj.group}}">
+        {{item.label}}
+   </template>
+   </template>-->
+   <template>
+        <style>
+            h2 {
+                background: #0014ff6b;
+            }
+        </style>
+        <h2>SPAN Example</h2>
+      
+        
+        
+           <template is="dom-repeat" items="{{_toArray(messageObj)}}">
+            <span>{{item.name}}</span><br>
+            <span>{{item.value}}</span>
+            <br>
+            <hr>
+        </template>
+       
+    </template>
+  </dom-module>
+
+  <script>
+    HTMLImports.whenReady(function() {
+      Polymer({
+        is: "alert-element",
+        properties: {
+          messageObj:{
+            type: Object,
+            value: [ { "1001": "Regular", "1002": "Chocolate" }]  ,
+            reflectToAttribute: true
+          }
+        },
+        _toArray(obj1) {
+          var obj=Object.assign({},obj1[0]);
+                return Object.keys(obj).map(function(key) {
+                    return {
+                        name: key,
+                        value: obj[key]
+                    };
+                });
+            }
+      });
+    });
+  </script>
+</body>
+</html>
