@@ -25,14 +25,14 @@
         <h2>SPAN Example</h2>
       
         
-        
-           <template is="dom-repeat" items="{{_toArray(messageObj)}}">
+         <template is="dom-repeat" items="{{messageObj}}" as="atrObj">
+           <template is="dom-repeat" items="{{_toArray(atrObj)}}">
             <span>{{item.name}}</span><br>
             <span>{{item.value}}</span>
             <br>
             <hr>
         </template>
-       
+        </template>
     </template>
   </dom-module>
 
@@ -43,12 +43,11 @@
         properties: {
           messageObj:{
             type: Object,
-            value: [ { "1001": "Regular", "1002": "Chocolate" }]  ,
+            value: [ { "1001": "Regular", "1002": "Chocolate" },{ "41": "Regular", "42": "Chocolate" }]  ,
             reflectToAttribute: true
           }
         },
-        _toArray(obj1) {
-          var obj=Object.assign({},obj1[0]);
+        _toArray(obj) {
                 return Object.keys(obj).map(function(key) {
                     return {
                         name: key,
