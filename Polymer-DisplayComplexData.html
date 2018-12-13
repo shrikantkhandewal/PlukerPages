@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://bstavroulakis.com/pluralsight/polymer/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="https://bstavroulakis.com/pluralsight/polymer/bower_components/polymer/polymer.html" />
+</head>
+<body>
+  <alert-element></alert-element>
+  <dom-module id="alert-element">
+   <template>
+        <style>
+            h2 {
+                background: #0014ff6b;
+            }
+        </style>
+        <h2>Display complex JSON data model with dom-repeat of arrray and Map</h2>
+        <template is="dom-repeat" items="{{_toArray(data)}}">
+            <span>{{item.name}}</span>
+            <span>{{item.value}}</span>
+            <br>
+            <hr>
+        </template>
+    </template>
+  </dom-module>
+
+  <script>
+    class ResponseObject
+    {
+      constructor(obj){
+        Object.assign(this, obj)
+      }
+    }
+    HTMLImports.whenReady(function() {
+      Polymer({
+        is: "alert-element",
+        properties: {
+          data:{
+            type: Object,
+            value: [{ "version": "1.0.0", "data": [{ "adapterThingName": "WindchillAdapterThing", "configurationName": "JapanWindchill", "objectType": "WT.PART.WTPart", "items": [{ "id": { "type": "string", "value": "OR:wt.change2.WTChangeRequest2:1699281" }, "objName": { "type": "string", "value": "CR1" }, "objNumber": { "type": "string", "value": "0001" } }, { "id": { "type": "string", "value": "OR:wt.change2.WTChangeRequest2:1699282" }, "objName": { "type": "string", "value": "CR2" }, "objNumber": { "type": "string", "value": "000" } } ], "labels": { "id": "ID", "objName": "Name", "objNumber": "Number" } }, { "adapterThingName": "WindchillAdapterThing", "configurationName": "UKWindchill", "objectType": "WT.PART.WTPart", "items": [{ "id": { "type": "string", "value": "…" }, "objName": { "type": "string", "value": "…" }, "objNumber": { "type": "string", "value": "…" } } ], "labels": { "id": "ID", "objName": "Name", "objNumber": "Number" } } ] } ] ,
+            reflectToAttribute: true
+          }
+        },
+        
+      _toArray(obj) {
+        var obj1=Object.assign({},obj[0]);
+         let jsonObj = new ResponseObject(obj1);
+              var myMap = [];
+              var obj = obj = new Object();
+              jsonObj.data.map(function(WindchillAdapterThing) {
+                	var labelsObject=Object.assign({},WindchillAdapterThing.labels);
+                  WindchillAdapterThing.items.map(function(AdapterAttributes) {
+                      Object.keys(AdapterAttributes).map(function(key) {
+                        console.log(labelsObject[key]);
+                       if (AdapterAttributes[key].value != ""){
+                         obj = new Object();
+                         obj["name"] = typeof labelsObject[key] !== "undefined" ? labelsObject[key] : key;
+                         obj["value"] = AdapterAttributes[key].value;
+                         myMap.push(obj);
+                       }
+                       
+                      });
+                  });
+              });
+              return myMap;
+          }
+    });
+    });
+  </script>
+</body>
+</html>
